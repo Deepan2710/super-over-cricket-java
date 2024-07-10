@@ -1,0 +1,59 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        int innings1Score = playInnings(1);
+        int innings2Score = playInnings(2);
+        determineResult(innings1Score, innings2Score);
+    }
+
+    public static int playInnings(int inningsNumber) {
+        System.out.println("Starting " + inningsNumber + "st/nd innings");
+        Over over = new Over();
+        return over.playOver();
+    }
+
+    public static void determineResult(int innings1Score, int innings2Score) {
+        System.out.println("Innings 1 Score: " + innings1Score);
+        System.out.println("Innings 2 Score: " + innings2Score);
+        
+        if (innings1Score > innings2Score) {
+            System.out.println("Team 1 wins!");
+        } else if (innings1Score < innings2Score) {
+            System.out.println("Team 2 wins!");
+        } else {
+            System.out.println("It's a tie!");
+        }
+    }
+}
+
+class Over {
+    private int totalScore = 0;
+    private int ball = 0;
+    private Scanner sc = new Scanner(System.in);
+
+    public int playOver() {
+        while (ball < 6) {
+            String input = sc.next();
+            if (input.equals("wide") || input.equals("no_ball")) {
+                totalScore += 1;
+                System.out.println(totalScore);
+            } else if (isNumeric(input)) {
+                int runs = Integer.parseInt(input);
+                totalScore += runs;
+                ball += 1;
+                // System.out.println("Runs scored: " + runs + ". Total score: " + totalScore);
+            }
+        }
+        return totalScore;
+    }
+
+    private boolean isNumeric(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+}
